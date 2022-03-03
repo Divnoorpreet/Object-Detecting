@@ -1,9 +1,9 @@
-img = "";
 status = "";
 objects = [];
+song = "";
 
 function preload(){
-    img = loadImage("dog_cat.jpg");
+    song  = loadSound("music.mp3");
 }
 
 function setup(){
@@ -40,13 +40,25 @@ function draw(){
         objectDetector.detect(video, gotResults);
         for(i = 0; i < objects.length; i++){
             document.getElementById("status").innerHTML = "Status : Object Detected";
-            document.getElementById("number_of_objects").innerHTML = "Number of objects deteced are" + objects.length;
             fill(r,g,b);
             percent = floor(objects[i].confidence * 100);
-            text(objects[i].label + "" + percent + "%" , objects[i].x + 15, objects[i].y + 15);
+            text(objects[i].label + " " + percent + "%", objects[i].x + 15, objects[i].y + 15);
             noFill();
             stroke(r,g,b);
             rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+        }
+        if(objects.label == 'person'){
+            document.getElementById("status2").innerHTML = "baby detected";
+            song.stop();
+            
+        }
+        else{
+            document.getElementById("status2").innerHTML = "baby not detected";
+            song.play();
+        }
+        if(objects.length < 0){
+            document.getElementById("status2").innerHTML = "baby not detected";
+            song.play();
         }
     }
 }
